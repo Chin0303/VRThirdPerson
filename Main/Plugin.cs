@@ -10,7 +10,13 @@ namespace VRThirdPerson
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
+        public static Transform tpCamTransform;
+        public static float tpCamOffsetValue = 2f;
+        public static bool inverseCameraRotation = true;
+        public static bool cameraClipping = false;
+        bool modEnabled;
         bool inRoom;
+        Camera tpCam;
 
         void Awake()
         {
@@ -20,11 +26,16 @@ namespace VRThirdPerson
         void OnEnable()
         {
             HarmonyPatches.ApplyHarmonyPatches();
+            if (inRoom)
+            {
+                modEnabled = true;
+            }
         }
 
         void OnDisable()
         {
             HarmonyPatches.RemoveHarmonyPatches();
+            modEnabled = false;
             tpCam.enabled = false;
         }
 
@@ -39,15 +50,9 @@ namespace VRThirdPerson
             VRTPConfig.RefreshSettings();
         }
 
-        public static Transform tpCamTransform;
-        Camera tpCam;
-        public static float tpCamOffsetValue = 2f;
-        public static bool inverseCameraRotation = true;
-        public static bool cameraClipping = false;
-        private bool modEnabled;
         void Update()
         {
-            if (!tpCam)
+            if (!modEnabled || tpCam == null)
                 return;
 
             if (VRInput.leftHand.secondary.Pressed)
@@ -83,12 +88,14 @@ namespace VRThirdPerson
         [ModdedGamemodeJoin]
         public void OnJoin(string gamemode)
         {
+            modEnabled = true;
             inRoom = true;
         }
 
         [ModdedGamemodeLeave]
         public void OnLeave(string gamemode)
         {
+            tpCam.enabled = false;
             inRoom = false;
         }
     }
