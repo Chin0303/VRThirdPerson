@@ -14,7 +14,8 @@ namespace VRThirdPerson.Patches
         private static void Postfix(ref float amount)
         {
             //Debug.Log($"{1 * amount}");
-            Plugin.tpCamTransform.transform.Rotate(new Vector3(0, 1, 0), 1 * amount, Space.World);
+            //Plugin.camParentTransform.transform.rotation = Quaternion.Euler(0, 1 * -amount, 0);
+            Plugin.camParentTransform.transform.Rotate(new Vector3(0, 1, 0), 1 * amount, Space.World);
         }
     }
 }
