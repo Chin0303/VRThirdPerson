@@ -1,9 +1,8 @@
-﻿namespace VRThirdPerson
+﻿namespace VRThirdPerson;
+
+internal class PluginInfo
 {
-    internal class PluginInfo
-    {
-        public const string GUID = "Husky.VRThirdPerson";
-        public const string Name = "VRThirdPerson";
-        public const string Version = "1.0.0";
-    }
+    public const string GUID = "Husky.VRThirdPerson";
+    public const string Name = "VRThirdPerson";
+    public const string Version = "1.0.1";
 }

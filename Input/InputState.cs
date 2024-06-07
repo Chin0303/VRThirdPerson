@@ -1,4 +1,6 @@
-﻿public class InputState
+﻿namespace VRThirdPerson.Input; // fix
+
+public class InputState
 {
     public bool Held, Pressed, Released;
     public static float threshold = 0.5f;

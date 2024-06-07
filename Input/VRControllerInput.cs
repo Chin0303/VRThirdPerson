@@ -2,6 +2,7 @@
 using UnityEngine;
 using Valve.VR;
 
+namespace VRThirdPerson.Input; // fix
 
 public class VRControllerInput
 {
@@ -19,28 +20,33 @@ public class VRControllerInput
 
     public void UpdateValues()
     {
-        switch (VRInput.OnSteam)
-        {
-            case true:
-                triggerValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerIndexFloat : ControllerInputPoller.instance.rightControllerIndexFloat;
-                gripValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerGripFloat : ControllerInputPoller.instance.rightControllerGripFloat;
-                primaryValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerPrimaryButton == true ? 1 : 0 : ControllerInputPoller.instance.rightControllerPrimaryButton == true ? 1 : 0;
-                secondaryValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerSecondaryButton == true ? 1 : 0 : ControllerInputPoller.instance.rightControllerSecondaryButton == true ? 1 : 0;
-                thumbstickValue = IsLeftHand ? SteamVR_Actions.gorillaTag_LeftJoystickClick.state ? 1 : 0 : SteamVR_Actions.gorillaTag_RightJoystickClick.state ? 1 : 0;
-                thumbstickAxisValue = IsLeftHand ? SteamVR_Actions.gorillaTag_LeftJoystick2DAxis.axis : SteamVR_Actions.gorillaTag_RightJoystick2DAxis.axis;
-                break;
-            case false:
-                var device = InputDevices.GetDeviceAtXRNode(IsLeftHand ? XRNode.LeftHand : XRNode.RightHand);
-                triggerValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerIndexFloat : ControllerInputPoller.instance.rightControllerIndexFloat;
-                gripValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerGripFloat : ControllerInputPoller.instance.rightControllerGripFloat;
-                primaryValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerPrimaryButton == true ? 1 : 0 : ControllerInputPoller.instance.rightControllerPrimaryButton == true ? 1 : 0;
-                secondaryValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerSecondaryButton == true ? 1 : 0 : ControllerInputPoller.instance.rightControllerSecondaryButton == true ? 1 : 0;
-                device.TryGetFeatureValue(CommonUsages.primary2DAxis, out thumbstickAxisValue);
-                device.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var stickValue);
-                thumbstickValue = stickValue ? 0 : 1;
-                break;
-        }
+        if (VRInput.OnSteam)
+            OnSteam();
+        else
+            OnOtherVersion();
     }
+    private void OnSteam()
+    {
+        triggerValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerIndexFloat : ControllerInputPoller.instance.rightControllerIndexFloat;
+        gripValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerGripFloat : ControllerInputPoller.instance.rightControllerGripFloat;
+        primaryValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerPrimaryButton == true ? 1 : 0 : ControllerInputPoller.instance.rightControllerPrimaryButton == true ? 1 : 0;
+        secondaryValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerSecondaryButton == true ? 1 : 0 : ControllerInputPoller.instance.rightControllerSecondaryButton == true ? 1 : 0;
+        thumbstickValue = IsLeftHand ? SteamVR_Actions.gorillaTag_LeftJoystickClick.state ? 1 : 0 : SteamVR_Actions.gorillaTag_RightJoystickClick.state ? 1 : 0;
+        thumbstickAxisValue = IsLeftHand ? SteamVR_Actions.gorillaTag_LeftJoystick2DAxis.axis : SteamVR_Actions.gorillaTag_RightJoystick2DAxis.axis;
+    }
+
+    private void OnOtherVersion()
+    {
+        var device = InputDevices.GetDeviceAtXRNode(IsLeftHand ? XRNode.LeftHand : XRNode.RightHand);
+        triggerValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerIndexFloat : ControllerInputPoller.instance.rightControllerIndexFloat;
+        gripValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerGripFloat : ControllerInputPoller.instance.rightControllerGripFloat;
+        primaryValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerPrimaryButton == true ? 1 : 0 : ControllerInputPoller.instance.rightControllerPrimaryButton == true ? 1 : 0;
+        secondaryValue = IsLeftHand ? ControllerInputPoller.instance.leftControllerSecondaryButton == true ? 1 : 0 : ControllerInputPoller.instance.rightControllerSecondaryButton == true ? 1 : 0;
+        device.TryGetFeatureValue(CommonUsages.primary2DAxis, out thumbstickAxisValue);
+        device.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out var stickValue);
+        thumbstickValue = stickValue ? 0 : 1;
+    }
+
     public void UpdateInput()
     {
         UpdateValues();

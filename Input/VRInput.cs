@@ -1,6 +1,7 @@
 ﻿using GorillaNetworking;
 using UnityEngine;
 
+namespace VRThirdPerson.Input; // fix
 public class VRInput : MonoBehaviour
 {
     public static VRControllerInput leftHand, rightHand;
