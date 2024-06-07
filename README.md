@@ -3,8 +3,9 @@
 
 This mod lets you play the game in a third person perspective.
 
-[Discord](https://discord.com/invite/zVpbtgmehp)
-[Preview](https://www.youtube.com/@huskygt)
+[# Discord](https://discord.com/invite/zVpbtgmehp) 
+<br>
+[# Preview](https://www.youtube.com/@huskygt)
 
 ## Requirements
 Utilla
