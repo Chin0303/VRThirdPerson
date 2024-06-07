@@ -1,9 +1,10 @@
 # VRThirdPerson
+
+This mod lets you play the game in a third person perspective.
 [Discord](https://discord.com/invite/zVpbtgmehp) 
 <br>
 [Preview](https://www.youtube.com/@huskygt)
 
-This mod lets you play the game in a third person perspective.
 
 ## Requirements
 Utilla
